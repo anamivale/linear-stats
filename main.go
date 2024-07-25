@@ -6,7 +6,21 @@ import (
 	"os"
 	"strconv"
 )
+func calculateLinearRegression(xs, ys []float64) (float64, float64) {
+    n := float64(len(xs))
+    sumX, sumY, sumXY, sumX2 := 0.0, 0.0, 0.0, 0.0
 
+    for i := 0; i < len(xs); i++ {
+        sumX += xs[i]
+        sumY += ys[i]
+        sumXY += xs[i] * ys[i]
+        sumX2 += xs[i] * xs[i]
+    }
+
+    m := (n*sumXY - sumX*sumY) / (n*sumX2 - sumX*sumX)
+    b := (sumY - m*sumX) / n
+    return m, b
+}
 func main() {
     if len(os.Args) != 2 {
         log.Fatal("Usage: go run your-program.go data.txt")
