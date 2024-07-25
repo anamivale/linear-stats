@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -49,6 +50,19 @@ func main() {
     if err := scanner.Err(); err != nil {
         log.Fatalf("error reading file: %v", err)
     }
+    if err := scanner.Err(); err != nil {
+        fmt.Println(err.Error())
+        return
+    }
+
+    xs := make([]float64, len(ys))
+
+    for i := range xs{
+        xs[i] = float64(i)
+    }
+
+    slope, yintercept := calculateLinearRegression(xs, ys)
+    fmt.Printf("Linear Regression Line: y = %.6fx + %.6f\n", slope, yintercept)
 
     
 }
