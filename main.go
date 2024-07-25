@@ -4,9 +4,29 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
 )
+
+// calculatePearsonCorrelation computes the Pearson correlation coefficient
+func calculatePearsonCorrelation(xs, ys []float64) float64 {
+    n := float64(len(xs))
+    sumX, sumY, sumXY, sumX2, sumY2 := 0.0, 0.0, 0.0, 0.0, 0.0
+
+    for i := 0; i < len(xs); i++ {
+        sumX += xs[i]
+        sumY += ys[i]
+        sumXY += xs[i] * ys[i]
+        sumX2 += xs[i] * xs[i]
+        sumY2 += ys[i] * ys[i]
+    }
+
+    numerator := n*sumXY - sumX*sumY
+    denominator := math.Sqrt((n*sumX2 - sumX*sumX) * (n*sumY2 - sumY*sumY))
+    return numerator / denominator
+}
+
 func calculateLinearRegression(xs, ys []float64) (float64, float64) {
     n := float64(len(xs))
     sumX, sumY, sumXY, sumX2 := 0.0, 0.0, 0.0, 0.0
@@ -64,5 +84,6 @@ func main() {
     slope, yintercept := calculateLinearRegression(xs, ys)
     fmt.Printf("Linear Regression Line: y = %.6fx + %.6f\n", slope, yintercept)
 
-    
+    coefcorr := calculatePearsonCorrelation(xs,ys)
+    fmt.Printf("Pearson Correlation Coefficient: %.10f\n", coefcorr)
 }
